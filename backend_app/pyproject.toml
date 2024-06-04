@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "testtask"
+version = "0.1.0"
+description = ""
+authors = ["pavel.grishaev <pollxx97@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pandas = "^2.2.2"
+pydantic = "^2.7.3"
+pydantic-settings = "^2.3.0"
+fastapi = "^0.111.0"
+uvicorn = "^0.30.1"
+sqlalchemy = "^2.0.30"
+psycopg2 = "^2.9.9"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.10.0"
+black = "^24.4.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

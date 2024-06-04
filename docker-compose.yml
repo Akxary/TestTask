@@ -1,0 +1,36 @@
+
+services:
+
+  back:
+    hostname: backend
+    restart: always
+    build: 
+      context: ./backend_app
+      dockerfile: Dockerfile
+    command: poetry run python main.py
+    volumes:
+      - ./backend_app/:/usr/src/app/
+    ports:
+      - "${OUT_BACK_PORT}:${IN_BACK_PORT}"
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+
+  db:
+    hostname: postgres
+    image: postgres:13.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "${OUT_DB_PORT}:${IN_DB_PORT}"
+    env_file:
+      - ./.env
+
+volumes:
+  postgres_data:
+
+  # front:
+  #   hostname: front
+  #   depends_on:
+  #     - back
