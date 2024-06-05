@@ -8,6 +8,5 @@ from db_connect import engine
 
 def init_db_data(db: Session):
 
-
     with engine.connect() as connection:
         cur = connection.cursor()

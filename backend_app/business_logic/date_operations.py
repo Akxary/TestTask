@@ -15,34 +15,34 @@ def get_last_day_of_month(date: datetime.date) -> datetime.date:
 def calculate_retirement_date(
     birth_date: datetime.date, retirement_age: int
 ) -> datetime.date:
+    y = birth_date.year + retirement_age
+    m = birth_date.month
     retirement_date = datetime.date(
-        year=birth_date.year + retirement_age,
-        month=birth_date.month,
-        day=birth_date.day,
+        year=y,
+        month=m,
+        # обрабатывает дату рождения 29 февраля
+        day=calendar.monthrange(y, m)[1],
     )
-    return get_last_day_of_month(retirement_date)
+    # return get_last_day_of_month(retirement_date)
+    return retirement_date
 
 
 def get_next_payment_date(date: datetime.date) -> datetime.date:
-    m = (date.month + 1)
+    m = date.month + 1
     y = date.year
     if m == 13:
         m = 1
         y += 1
-    return datetime.date(
-        y, m, calendar.monthrange(y, m)[1]
-    )
+    return datetime.date(y, m, calendar.monthrange(y, m)[1])
 
 
 def get_previous_payment_date(date: datetime.date) -> datetime.date:
-    m = (date.month - 1)
+    m = date.month - 1
     y = date.year
     if m == 0:
         m = 12
         y -= 1
-    return datetime.date(
-        y, m, calendar.monthrange(y, m)[1]
-    )
+    return datetime.date(y, m, calendar.monthrange(y, m)[1])
 
 
 def calculate_payment_date_boundaries(
@@ -60,6 +60,8 @@ def calculate_stage_flg(
 ) -> int:
     if payment_start_dt <= report_date <= payment_end_dt:
         return 1
+    if payment_end_dt < report_date:
+        return 2
     return 0
 
 

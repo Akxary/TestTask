@@ -21,7 +21,7 @@ class Agrmnt(Base):
 class BaseRetirement(Base):
     __tablename__ = "base_retirement"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    agrmnt_id = Column(Integer, ForeignKey("agrmnt.id"), nullable=False)
+    # agrmnt_id = Column(Integer, ForeignKey("agrmnt.id"), nullable=False)
     agrmnt_number = Column(Integer, ForeignKey("agrmnt.number"), nullable=False)
     base_retirement = Column(DECIMAL, nullable=False)
     # связь с классом договор по полю agrmnt.base_retirement (поля нет в db)
@@ -32,7 +32,7 @@ class Payment(Base):
     __tablename__ = "payment"
     id = Column(Integer, primary_key=True, autoincrement=True)
     agrmnt_id = Column(Integer, ForeignKey("agrmnt.id"), nullable=False)
-    payment_date = Column(DATE, nullable=False)
+    report_date = Column(DATE, nullable=False)
     amount = Column(DECIMAL, nullable=False)
     # связь с классом договор по полю agrmnt.payment (поля нет в db)
     agrmnt = relationship("Agrmnt", back_populates="payment")

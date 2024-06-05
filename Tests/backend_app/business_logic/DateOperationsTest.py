@@ -6,7 +6,8 @@ from business_logic.date_operations import (
     get_next_payment_date,
     get_previous_payment_date,
     calculate_payment_date_boundaries,
-    get_period_number
+    get_period_number,
+    calculate_stage_flg,
 )
 
 
@@ -31,6 +32,7 @@ class DateOperationsTest(unittest.TestCase):
         test_map = {
             (date(2020, 1, 1), 10): date(2030, 1, 31),
             (date(2024, 2, 26), 15): date(2039, 2, 28),
+            (date(2024, 2, 29), 1): date(2025, 2, 28),
         }
         for k, v in test_map.items():
             ans = calculate_retirement_date(k[0], k[1])
@@ -53,6 +55,16 @@ class DateOperationsTest(unittest.TestCase):
         }
         for k, v in test_map.items():
             ans = get_previous_payment_date(k)
+            self.base_output(k, v, ans)
+
+    def test_calculate_stage_flg(self):
+        test_map = {
+            (date(2019, 1, 31), date(2020, 1, 31), date(2021, 1, 31)): 0,
+            (date(2020, 3, 31), date(2020, 1, 31), date(2021, 1, 31)): 1,
+            (date(2022, 1, 31), date(2020, 1, 31), date(2021, 1, 31)): 2,
+        }
+        for k, v in test_map.items():
+            ans = calculate_stage_flg(k[0], k[1], k[2])
             self.base_output(k, v, ans)
 
     def test_calculate_payment_date_boundaries(self):

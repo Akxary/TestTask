@@ -2,6 +2,7 @@
 <project version="4">
   <component name="Black">
     <option name="enabledOnReformat" value="true" />
+    <option name="pathToExecutable" value="C:\Users\pollx\AppData\Local\Programs\Python\Python311\Scripts\black.exe" />
     <option name="sdkName" value="Poetry (TestTask)" />
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="Poetry (TestTask)" project-jdk-type="Python SDK" />
