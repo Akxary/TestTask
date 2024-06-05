@@ -44,8 +44,8 @@ def get_agr_retirement_boundaries(
         ),
         axis=1,
     )
-    agr_df["payment_start_dt"] = agr_df["boundaries"].apply(lambda x: x[0])  # [0]
-    agr_df["payment_end_dt"] = agr_df["boundaries"].apply(lambda x: x[1])  # [1]
+    agr_df["payment_start_dt"] = agr_df["boundaries"].apply(lambda x: x[0]).astype("datetime64[ns]")  # [0]
+    agr_df["payment_end_dt"] = agr_df["boundaries"].apply(lambda x: x[1]).astype("datetime64[ns]")  # [1]
     agr_df = agr_df.drop(columns=["boundaries"])
     return agr_df
 
@@ -62,22 +62,29 @@ def get_payment_period(agr_df: pd.DataFrame) -> pd.DataFrame:
         ),
         axis=1,
     )
+    merge_list = []
     agr_with_stage_0 = agr_with_stage[agr_with_stage["stage"] == 0]
-    agr_with_stage_0["m"] = 0
-    agr_with_stage_0["dor"] = agr_with_stage_0["payment_start_dt"]
+    if agr_with_stage_0.shape[0] > 0:
+        agr_with_stage_0["m"] = 0
+        agr_with_stage_0["dor"] = agr_with_stage_0["payment_start_dt"]
+        merge_list.append(agr_with_stage_0)
 
     agr_with_stage_1 = agr_with_stage[agr_with_stage["stage"] == 1]
-    agr_with_stage_1["m"] = agr_with_stage_1.apply(
-        lambda df: get_period_number(df["report_date"], df["payment_start_dt"]), axis=1
-    )
-    agr_with_stage_1["dor"] = agr_with_stage_1["report_date"]
+    if agr_with_stage_1.shape[0] > 0:
+        agr_with_stage_1["m"] = agr_with_stage_1.apply(
+            lambda df: get_period_number(df["report_date"], df["payment_start_dt"]), axis=1
+        )
+        agr_with_stage_1["dor"] = agr_with_stage_1["report_date"]
+        merge_list.append(agr_with_stage_1)
 
     agr_with_stage_2 = agr_with_stage[agr_with_stage["stage"] == 2]
-    agr_with_stage_2["m"] = agr_with_stage_2.apply(
-        lambda df: get_period_number(df["payment_end_dt"], df["payment_start_dt"]), axis=1
-    )
-    agr_with_stage_2["dor"] = agr_with_stage_2["payment_end_dt"]
-    return pd.concat([agr_with_stage_0, agr_with_stage_1, agr_with_stage_2], ignore_index=True)
+    if agr_with_stage_2.shape[0] > 0:
+        agr_with_stage_2["m"] = agr_with_stage_2.apply(
+            lambda df: get_period_number(df["payment_end_dt"], df["payment_start_dt"]), axis=1
+        )
+        agr_with_stage_2["dor"] = agr_with_stage_2["payment_end_dt"]
+        merge_list.append(agr_with_stage_2)
+    return pd.concat(merge_list, ignore_index=True)
 
 
 def calculate_retirement_amount(
