@@ -40,6 +40,6 @@ async def load_file(file: UploadFile = File(...), db: Session = Depends(get_db))
 
     return {
         "status": "SUCCESS",
-        "pandas readed": {"agr": agr_df.shape[0], "ret": ret_df.shape[0]},
+        "pandas read": {"agr": agr_df.shape[0], "ret": ret_df.shape[0]},
         "db inserted": {"agr": agr_cnt, "ret": ret_cnt},
     }
