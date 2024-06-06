@@ -1,10 +1,9 @@
-import pandas as pd
-from fastapi.responses import FileResponse
 from fastapi import APIRouter, Depends
-from db_models.db_funcs import get_payments_pd
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
+
 from db_connect import get_db
-from response_models.models import RetirementBase
+from db_models.db_funcs import get_payments_pd
 
 router = APIRouter(prefix="/result", tags=["result"])
 

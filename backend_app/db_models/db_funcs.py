@@ -1,13 +1,10 @@
-from typing import List, Type
+from typing import Type
 
 import pandas as pd
-from sqlalchemy.orm import Session, DeclarativeBase
-from sqlalchemy import Engine
-from db_models.agrmnt import Agrmnt, BaseRetirement, Payment
-from sqlalchemy import func
-from db_models import agrmnt as db_agrmnt
-from enum import Enum
+from sqlalchemy.orm import Session
+
 from db_connect import engine, Base
+from db_models.agrmnt import Agrmnt, BaseRetirement, Payment
 
 
 def init_db_data(db: Session):

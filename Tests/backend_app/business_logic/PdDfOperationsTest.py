@@ -100,6 +100,8 @@ class PdDfOperationsTest(unittest.TestCase):
         agr_columns = ["number", "base_retirement", "m"]
         agr_res_columns = agr_columns + ["amount"]
         agr = pd.DataFrame([[10001, 2.0, 4], [10002, 2.0, 0]], columns=agr_columns)
-        exp = pd.DataFrame([[10001, 2.0, 4, 32.0], [10002, 2.0, 0, 2.0]], columns=agr_res_columns)
+        exp = pd.DataFrame(
+            [[10001, 2.0, 4, 32.0], [10002, 2.0, 0, 2.0]], columns=agr_res_columns
+        )
         ans = calculate_retirement_amount(agr, 1.0)
         self.df_output(exp, ans, ["number"])

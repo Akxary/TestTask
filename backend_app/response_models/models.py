@@ -3,7 +3,7 @@ from datetime import date
 
 
 class CalcParams(BaseModel):
-    report_date: date = Field(default=date(2024,1,31))
+    report_date: date = Field(default=date(2024, 1, 31))
     coeff_value: float = Field(default=0.1)
     max_age: int = Field(default=100)
 
